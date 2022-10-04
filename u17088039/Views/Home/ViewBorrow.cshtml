@@ -1,0 +1,39 @@
+﻿@model u17088039.Models.BorrowsVM
+@Html.ActionLink("View Student", "ViewStudent", "Home", new { bookId = Model.Book.BookId }, new { @class = "btn btn-info" })
+
+@if (Model.Book.Status == "Book Out")
+{
+    <h2> @Model.Book.Name - <span style="color:red">Book Out</span></h2>
+
+}
+else
+{
+    <h2> @Model.Book.Name - <span style="color:green">Book Available</span></h2>
+}
+<hr />
+<h3> # Borrow - @Model.Borrows.Count()</h3>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Taken Date</th>
+            <th scope="col">Borrowed Date</th>
+            <th scope="col">Borrowed By</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model.Borrows)
+        {
+            <tr>
+                <td>@b.BorrowId</td>
+                <td>@b.TakenDate</td>
+                <td>@b.BroughtDate</td>
+                <td>@b.Student</td>
+                <td></td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>

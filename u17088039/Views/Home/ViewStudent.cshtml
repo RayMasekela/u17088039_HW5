@@ -1,0 +1,115 @@
+﻿@model u17088039.Models.StudentVM
+
+@{
+    ViewBag.Title = "ViewStudent";
+}
+
+@using (Html.BeginForm("SearchStudent", "Home", FormMethod.Post))
+{
+    <form>
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <input type="text" placeholder="Search Student Name" name="studentName" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <select class="form-control" name="StudentClass">
+                        <option>Select a Class</option>
+                        @foreach (var StudentClasses in Model.StudentClasses)
+                        {
+                            <option value="@StudentClasses.Name">@StudentClasses.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-success form-control" />
+
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <a href="@Url.Action("ViewStudents", "Home", new {bookid = Model.Book.BookId})" class="btn btn-danger form-control">Clear</a>
+                </div>
+            </div>
+
+        </div>
+
+        <select name="bookid" style="display: none">
+            <option value="@Model.Book.BookId">Bookid</option>
+        </select>
+
+    </form>
+
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Class
+        </th>
+        <th>
+            Points
+        </th>
+        @if (Model.Students.Where(stu => stu.HasBook = true).Count() > 0)
+        {
+            <th>Return book</th>
+        }
+        else
+        {
+            <th>Borrow book</th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Students)
+    {
+        <tr>
+            <td>
+                @item.StudentId
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Surname
+            </td>
+            <td>
+                @item.Class
+            </td>
+            <td>
+                @item.Points
+            </td>
+            <td>
+                @if (item.HasBook == true)
+                {
+                    @Html.ActionLink("Return Book", "ReturnBook", "Home", new { }, new { @class = "btn btn-info" })
+                }
+                else
+                {
+                    @Html.ActionLink("Borrow Book", "ReturnBook", "Home", new { }, new { @class = "btn btn-info" })
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

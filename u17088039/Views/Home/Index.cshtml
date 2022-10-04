@@ -1,0 +1,92 @@
+﻿
+@model u17088039.Models.IndexVM
+
+@using (Html.BeginForm("SearchBook", "Home", FormMethod.Post))
+{
+<form>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="form-group">
+                <input type="text" placeholder="Search Book Name" name="bookName" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <div class="form-group">
+                <select class="form-control" name="author">
+                    <option>Select a Author</option>
+                    @foreach (var auhtor in Model.Authors)
+                    {
+                        <option value="@auhtor.Name @auhtor.Surname">@auhtor.Name @auhtor.Surname</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <div class="form-group">
+                <select class="form-control" name="typeName">
+                    <option>Select a Type</option>
+                    @foreach (var type in Model.Types)
+                    {
+                        <option value="@type.Name">@type.Name </option>
+                    }
+
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <div class="form-group">
+                <input type="submit" class="btn btn-success form-control" />
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <div class="form-group">
+                <a href="@Url.Action()" class="btn btn-danger form-control">Clear</a>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+}
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Page Count</th>
+            <th scope="col">Points</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model.Books)
+        {
+            <tr>
+                <td>@b.BookId</td>
+                <td>@b.Name</td>
+                <td>@b.Author</td>
+                <td>@b.Type</td>
+                <td>@b.PageCount</td>
+                <td>@b.Points</td>
+                @if (b.Status == "Book Out")
+                {
+                    <td style="color:red">Out</td>
+                }
+                else
+                {
+                    <td style="color: green">Available</td>
+                }
+                <td>@Html.ActionLink("View", "ViewBorrow", "Home", new { bookId = b.BookId }, new { @class = "btn btn-info" })</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
